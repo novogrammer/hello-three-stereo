@@ -4,6 +4,7 @@ import { GroundedSkybox } from 'three/addons/objects/GroundedSkybox.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
 import { getElementSize } from "./dom_utils";
+import StereoWithPaddingEffect from "./StereoWithPaddingEffect";
 
 
 interface ThreeObjects{
@@ -11,6 +12,7 @@ interface ThreeObjects{
   scene:THREE.Scene;
   camera:THREE.PerspectiveCamera;
   cube:THREE.Mesh;
+  stereoWithPaddingEffect:StereoWithPaddingEffect
 }
 
 export default class App{
@@ -37,7 +39,7 @@ export default class App{
     const scene = new THREE.Scene();
 
 
-    const camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
+    const camera = new THREE.PerspectiveCamera( 45, width / height, 0.1, 1000 );
     
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize( width, height );
@@ -69,11 +71,14 @@ export default class App{
     
     camera.position.z = 5;
 
+    const stereoWithPaddingEffect=new StereoWithPaddingEffect(renderer)
+
     this.threeObjects={
       renderer,
       scene,
       camera,
       cube,
+      stereoWithPaddingEffect,
     }
   }
 
@@ -127,11 +132,12 @@ export default class App{
       scene,
       camera,
       cube,
+      stereoWithPaddingEffect,
     }=this.threeObjects;
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
   
-    renderer.render( scene, camera );
+    stereoWithPaddingEffect.render( scene, camera );
 
   }
 }
