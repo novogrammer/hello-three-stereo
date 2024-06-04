@@ -15,6 +15,8 @@ interface ThreeObjects{
   stereoWithPaddingEffect:StereoWithPaddingEffect
 }
 
+const PADDING_RATIO=0.03;
+
 export default class App{
 
   heroElement:HTMLElement;
@@ -35,6 +37,8 @@ export default class App{
   }
   setupThree(){
     const {width,height}=getElementSize(this.heroElement);
+
+    const m=Math.max(width,height);
 
     const scene = new THREE.Scene();
 
@@ -71,7 +75,7 @@ export default class App{
     
     camera.position.z = 5;
 
-    const stereoWithPaddingEffect=new StereoWithPaddingEffect(renderer)
+    const stereoWithPaddingEffect=new StereoWithPaddingEffect(renderer,m * PADDING_RATIO);
 
     this.threeObjects={
       renderer,
@@ -110,16 +114,19 @@ export default class App{
     if (!this.threeObjects) {
       throw new Error("threeObjects is null");
     }
-    const { renderer, camera } = this.threeObjects;
+    const { renderer, camera,stereoWithPaddingEffect } = this.threeObjects;
 
     const {
       width,
       height,
     } = getElementSize(this.heroElement);
 
-    renderer.setSize(width, height);
+    const m=Math.max(width,height);
+    stereoWithPaddingEffect.padding=m * PADDING_RATIO;
+    stereoWithPaddingEffect.setSize(width, height);
 
     camera.aspect = width / height;
+    
     camera.updateProjectionMatrix();
   }
 
