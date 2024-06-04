@@ -114,7 +114,7 @@ export default class App{
     if (!this.threeObjects) {
       throw new Error("threeObjects is null");
     }
-    const { renderer, camera,stereoWithPaddingEffect } = this.threeObjects;
+    const { camera,stereoWithPaddingEffect } = this.threeObjects;
 
     const {
       width,
