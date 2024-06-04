@@ -128,7 +128,6 @@ export default class App{
       throw new Error("threeObjects is null");
     }
     const {
-      renderer,
       scene,
       camera,
       cube,
